@@ -7,6 +7,8 @@ var express = require('express')
   , routes = require('./routes');
 var async = require('async');
 var app = module.exports = express.createServer();
+var dbURL = 'mongodb://localhost/database';
+var db = require('mongoose').connect(dbURL);
 
 // Configuration
 

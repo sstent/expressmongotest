@@ -10,17 +10,30 @@ var maxUsersPerPage = 5;
 
 module.exports = function(app) {
 
-  app.get('/users', function(req, res,next){
-  var page = req.query.page && parseInt(req.query.page, 10) || 0;    
-    User.find({})
-    .sort('name', 1)
-    .skip(page * maxUsersPerPage)
-    .limit(maxUsersPerPage)
-    .exec(function(err, users) {
+  app.get('/users', function(req, res, next){
+    var page = req.query.page && parseInt(req.query.page, 10) || 0;
+    
+    User.count(function(err, count) {
       if (err) {
-        return next(err);
+      return next(err);
       }
-      res.render('users/index', {title: 'Users', users: users});
+      var lastPage = (page + 1) * maxUsersPerPage >= count;
+      
+      User.find({})
+      .sort('name')
+      .skip(page * maxUsersPerPage)
+      .limit(maxUsersPerPage)
+      .exec(function(err, users) {
+        if (err) {
+         return next(err);
+      }
+      res.render('users/index', {
+        title: 'Users',
+        users: users,
+        page: page,
+        lastPage: lastPage
+      });
+      });
     });
   });
 
@@ -33,19 +46,16 @@ module.exports = function(app) {
   });
 
   app.post('/users', notLoggedIn, function(req, res, next) {
-    User.findOne({username: req.body.username}, function(err, user) {
-      if (err) {
-        return next(err);
-      }
-      if (user) {
-        return res.send('Conflict', 409);
-      }
-      User.create(req.body, function(err) {
+    User.create(req.body, function(err) {
         if (err) {
-          return next(err);
+           if (err.code === 11000) {
+              res.send('Conflict', 409);
+        } else {
+          next(err);
         }
-        res.redirect('/users');
-      });
+        return;
+      }
+      res.redirect('/users');
     });
   });
 
