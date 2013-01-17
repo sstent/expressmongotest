@@ -1,15 +1,9 @@
-h1 Users
+h1 Articles
 
-p
-  a(href="/users/new") Create new profile
 p
   a(href="/articles/new") Create new article
 
-ul
-  - users.forEach(function(user) {
-    li
-      a(href="/users/" + encodeURIComponent(user.username))= user.name
-  - });
+p!= partial('articles/list', {articles: articles})
 
 - if (page > 0) {
   a(href="?page=" + (page - 1)) Previous

@@ -12,27 +12,27 @@ module.exports = function(app) {
 
   app.get('/users', function(req, res, next){
     var page = req.query.page && parseInt(req.query.page, 10) || 0;
-    
+
     User.count(function(err, count) {
       if (err) {
       return next(err);
       }
       var lastPage = (page + 1) * maxUsersPerPage >= count;
-      
+
       User.find({})
       .sort('name')
       .skip(page * maxUsersPerPage)
       .limit(maxUsersPerPage)
       .exec(function(err, users) {
         if (err) {
-         return next(err);
-      }
-      res.render('users/index', {
-        title: 'Users',
-        users: users,
-        page: page,
-        lastPage: lastPage
-      });
+           return next(err);
+        }
+        res.render('users/index', {
+          title: 'Users',
+          users: users,
+          page: page,
+          lastPage: lastPage
+        });
       });
     });
   });
@@ -42,10 +42,21 @@ module.exports = function(app) {
   });
 
   app.get('/users/:name', loadUser, function(req, res, next){
-    res.render('users/profile', {title: 'User profile', user: req.user});
+    req.user.recentArticles(function(err, articles) {
+    if (err) {
+    return next(err);
+    }
+    res.render('users/profile', {
+    title: 'User profile',
+    user: req.user,
+    recentArticles: articles
+    });
+    });
   });
 
   app.post('/users', notLoggedIn, function(req, res, next) {
+    console.log("/nreq.body" + req.body);
+    console.log("/nreq.body" + JSON.stringify(req.body));
     User.create(req.body, function(err) {
         if (err) {
            if (err.code === 11000) {
@@ -59,13 +70,13 @@ module.exports = function(app) {
     });
   });
 
-  app.del('/users/:name', loadUser, restrictUserToSelf,
+  app.del('/users/:name', loadUser,
     function(req, res, next) {
       req.user.remove(function(err) {
         if (err) { return next(err); }
         res.redirect('/users');
       });
-    
+
   });
 
 };
