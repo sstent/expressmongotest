@@ -1,11 +1,49 @@
-h1 New Article
+extends ../layout
 
-form(method="POST", action="/articles")
-  p
-    label(for="title") Title<br />
-    input#title(name="title")
-  p
-    label(for="body") Body<br />
-    textarea#body(name="body")
-  p
-    input(type="submit", value="Create")
+block content
+  h1 New Article
+
+  form(method="POST", action="/articles")
+    p
+      label(for="title") UserID<br />
+      input#title(name="User_ID")
+    p
+      label(for="body") Date<br />
+      textarea#body(name="Date")
+    p
+      label(for="element") element[0][exerciseID]<br />
+      textarea(class='element[0]', name="element[0][exerciseID]")
+    p
+      label(for="element") element[0][split][1][reps]<br />
+      textarea(class='element[1]', name="element[0][split][0][reps]")
+    p
+      label(for="element") element[0][split][1][weight]<br />
+      textarea(class='element[1]', name="element[0][split][0][weight]")
+    p
+      label(for="element") element[0]split[2][reps]<br />
+      textarea(class='element[1]', name="element[0][split][1][reps]")
+    p
+      label(for="element") element[0].split[2][weight]<br />
+      textarea(class='element[1]', name="element[0][split][1][weight]")
+
+
+
+    p
+      label(for="element") element[1][exerciseID]<br />
+      textarea(class='element[1]', name="element[1][exerciseID]")
+    p
+      label(for="element") element[1][split][1][reps]<br />
+      textarea(class='element[1]', name="element[1][split][0][reps]")
+    p
+      label(for="element") element[1][split][1][weight]<br />
+      textarea(class='element[1]', name="element[1][split][0][weight]")
+    p
+      label(for="element") element[1]split[2][reps]<br />
+      textarea(class='element[1]', name="element[1][split][1][reps]")
+    p
+      label(for="element") element[1].split[2][weight]<br />
+      textarea(class='element[1]', name="element[1][split][1][weight]")
+
+
+    p
+      input(type="submit", value="Create")

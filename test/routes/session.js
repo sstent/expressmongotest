@@ -5,11 +5,10 @@
   var notLoggedIn = require('./middleware/not_logged_in');
 
 module.exports = function(app) {
-  app.dynamicHelpers({
-    session: function(req, res) {
-      return req.session;
-    }
-  });
+    // app.use(function(req, res) {
+    //   console.log("session " + req.session + " - " + JSON.stringify(req.session));
+    //   res.locals.session = req.session;
+    // });
 
   app.get('/session/new', notLoggedIn, function(req, res) {
     res.render('session/new', {title: "Log in"});

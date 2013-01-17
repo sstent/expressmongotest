@@ -1,8 +1,10 @@
-!!!
+!!! 5
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    title Title2
+    link(rel='stylesheet', '/stylesheets/style.css')
+    block scripts
   body
-    header!= partial('session/user')
-    section#main!= body
+    include session/user
+    block content
+

@@ -8,7 +8,7 @@ var Article = require('../data/models/article');
 var notLoggedIn = require('./middleware/not_logged_in');
 var loadArticle = require('./middleware/load_article');
 var loggedIn = require('./middleware/logged_in');
-
+var qs = require('querystring');
 var maxArticlesPerPage = 5;
 
 module.exports = function(app) {
@@ -54,7 +54,7 @@ module.exports = function(app) {
   });
 
   app.get('/articles/new', loggedIn, function(req, res) {
-    res.render('Articles/new', {title: "New Article"});
+    res.render('articles/new', {title: "New Article"});
   });
 
   app.get('/articles/:title', loadArticle, function(req, res, next){
@@ -63,6 +63,7 @@ module.exports = function(app) {
   });
 
   app.post('/articles', loggedIn, function(req, res, next) {
+    console.log("/nreq.body" + JSON.stringify(req.body));
     var article = req.body;
     article.author = req.session.user._id;
     Article.create(article, function(err) {

@@ -1,5 +1,8 @@
-ul
-  - articles.forEach(function(article) {
-    li
-      a(href="/articles/" + encodeURIComponent(article.title))= article.title
-  - });
+extends ../layout
+
+block content
+  ul
+    - articles.forEach(function(article) {
+      li
+        a(href="/articles/" + encodeURIComponent(article.title))= article.title
+    - });

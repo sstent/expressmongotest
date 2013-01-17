@@ -1,11 +1,13 @@
-h1= user.name
+extends ../layout
+block content
+  h1= user.name
 
-h2 Recent Articles:
-p!= partial('articles/list', {articles: recentArticles })
+  h2 Recent Articles:
+  p!= partial('articles/list', {articles: recentArticles })
 
 
-form(action="/users/" + encodeURIComponent(user.username), method="POST")
-  input(name="_method", type="hidden", value="DELETE")
-  input(type="submit", value="Delete")
+  form(action="/users/" + encodeURIComponent(user.username), method="POST")
+    input(name="_method", type="hidden", value="DELETE")
+    input(type="submit", value="Delete")
 
-a(href="/users/") Back to Userlist 
+  a(href="/users/") Back to Userlist 

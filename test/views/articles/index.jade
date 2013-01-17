@@ -1,15 +1,23 @@
-h1 Articles
+extends ../layout
 
-p
-  a(href="/articles/new") Create new article
+block content
+  h1 Articles
 
-p!= partial('articles/list', {articles: articles})
+  p
+    a(href="/articles/new") Create new article
+  p
+    a(href="/users") List Users
+  p
+    a(href="/articles") List Articles
 
-- if (page > 0) {
-  a(href="?page=" + (page - 1)) Previous
-  &nbsp;
-- }
 
-- if (! lastPage) {
-  a(href="?page=" + (page + 1)) Next
-- }
+  include list
+
+  - if (page > 0) {
+    a(href="?page=" + (page - 1)) Previous
+    &nbsp;
+  - }
+
+  - if (! lastPage) {
+    a(href="?page=" + (page + 1)) Next
+  - }

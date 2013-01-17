@@ -1,7 +1,10 @@
-h1= title
-p Welcome to #{title}
+extends ./layout
 
-p
-  a(href="/users") List Users
-p
-  a(href="/articles") List Articles
+block content
+  h1= title
+  p Welcome to #{title}
+
+  p
+    a(href="/users") List Users
+  p
+    a(href="/articles") List Articles

@@ -1,21 +1,29 @@
-h1 Users
+extends ../layout
 
-p
-  a(href="/users/new") Create new profile
-p
-  a(href="/articles/new") Create new article
+block content
+  h1 Users
 
-ul
-  - users.forEach(function(user) {
-    li
-      a(href="/users/" + encodeURIComponent(user.username))= user.name
-  - });
+  p
+    a(href="/users/new") Create new profile
+  p
+    a(href="/articles/new") Create new article
 
-- if (page > 0) {
-  a(href="?page=" + (page - 1)) Previous
-  &nbsp;
-- }
+  p
+    a(href="/users") List Users
+  p
+    a(href="/articles") List Articles
 
-- if (! lastPage) {
-  a(href="?page=" + (page + 1)) Next
-- }
+  ul
+    - users.forEach(function(user) {
+      li
+        a(href="/users/" + encodeURIComponent(user.username))= user.name
+    - });
+
+  - if (page > 0) {
+    a(href="?page=" + (page - 1)) Previous
+    &nbsp;
+  - }
+
+  - if (! lastPage) {
+    a(href="?page=" + (page + 1)) Next
+  - }
