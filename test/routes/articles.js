@@ -13,7 +13,7 @@ var maxArticlesPerPage = 5;
 
 module.exports = function(app) {
 
-  app.get('/articles', function(req, res, next){
+  app.get('/articles', loggedIn, function(req, res, next){
     var page = req.query.page  && parseInt(req.query.page, 10) || 0;
     async.parallel([
 
@@ -57,7 +57,7 @@ module.exports = function(app) {
     res.render('articles/new', {title: "New Article"});
   });
 
-  app.get('/articles/:title', loadArticle, function(req, res, next){
+  app.get('/articles/:_id', loadArticle, function(req, res, next){
     res.render('articles/article', {title: req.article.title,
       article: req.article});
   });

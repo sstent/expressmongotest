@@ -2,8 +2,7 @@ var Schema = require('mongoose').Schema;
 
 var ArticleSchema = new Schema({
   title: {
-    type: String,
-    unique: true
+    type: String
   },
   body: String,
   author: {

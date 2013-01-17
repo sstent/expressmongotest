@@ -2,8 +2,17 @@ extends ../layout
 block content
   h1= user.name
 
+  - if (session.user)
+    h1 Private View
+  - else
+    h1 Public View
+
   h2 Recent Articles:
-  p!= partial('articles/list', {articles: recentArticles })
+  ul
+  - recentArticles.forEach(function(article) {
+    li
+      a(href="/articles/" + encodeURIComponent(article._id))= article.title
+  - });
 
 
   form(action="/users/" + encodeURIComponent(user.username), method="POST")

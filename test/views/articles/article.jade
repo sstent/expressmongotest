@@ -9,7 +9,7 @@ block content
   p
     span Author:
     &nbsp;
-    a(href="/users/" + encodeURIComponent(article.author.username))= article.author.full_name
+    a(href="/users/" + encodeURIComponent(article.author.name))= article.author.name
 
   p
     a(href="/articles") Back to all articles

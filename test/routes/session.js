@@ -17,6 +17,7 @@ module.exports = function(app) {
         }
         if (user) {
           req.session.user = user;
+          console.log("req.session.user= " + JSON.stringify(req.session.user));
           res.redirect('/users');
           } else {
           res.redirect('/session/new');
@@ -26,6 +27,6 @@ module.exports = function(app) {
 
   app.del('/session', function(req, res, next) {
       req.session.destroy();
-      res.redirect('/users');
+      res.redirect('/session/new');
   });
 };

@@ -4,13 +4,14 @@
 
 var User = require('../data/models/user');
 var notLoggedIn = require('./middleware/not_logged_in');
+var loggedIn = require('./middleware/logged_in');
 var loadUser = require('./middleware/load_user');
 var restrictUserToSelf = require('./middleware/restrict_user_to_self');
 var maxUsersPerPage = 5;
 
 module.exports = function(app) {
 
-  app.get('/users', function(req, res, next){
+  app.get('/users', loggedIn,  function(req, res, next){
     var page = req.query.page && parseInt(req.query.page, 10) || 0;
 
     User.count(function(err, count) {

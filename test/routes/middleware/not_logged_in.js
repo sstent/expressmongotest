@@ -1,6 +1,6 @@
 function notLoggedIn(req, res, next) {
   if (req.session.user) {
-    res.send('Unauthorized', 401);
+     res.redirect('/users/' + req.session.user.username);
   } else {
     next();
   }
