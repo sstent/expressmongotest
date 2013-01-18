@@ -32,6 +32,7 @@ app.configure(function(){
     res.locals.session = req.session;
     next();
   });
+  app.set('port', 3000);
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
@@ -51,7 +52,7 @@ require('./routes/users')(app);
 require('./routes/session')(app);
 require('./routes/articles')(app);
 
-//http.listen(3000
-http.createServer(app).listen(3000, function(){
-  console.log("Express server listening on port %d in %s mode");
+http.createServer(app).listen(app.get("port"), function(){
+  console.log ("Server listening on port " + app.get("port"));
 });
+
