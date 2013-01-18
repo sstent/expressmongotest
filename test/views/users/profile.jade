@@ -4,8 +4,9 @@ block content
 
   - if (session.user.name === requested)
     h1 Private View
-      p= session.user.name
-      p= requested
+
+      p
+        a(href="/workouts/new") Create new workout
 
   - else
     h1 Public View

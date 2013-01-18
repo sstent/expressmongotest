@@ -4,12 +4,12 @@
 
 var async = require('async');
 
-var workout = require('../data/models/workout');
+var Workout = require('../data/models/workout');
 var notLoggedIn = require('./middleware/not_logged_in');
-var loadworkout = require('./middleware/load_workout');
+var loadWorkout = require('./middleware/load_workout');
 var loggedIn = require('./middleware/logged_in');
 var qs = require('querystring');
-var maxworkoutsPerPage = 5;
+var maxWorkoutsPerPage = 5;
 
 module.exports = function(app) {
 
@@ -18,14 +18,14 @@ module.exports = function(app) {
     async.parallel([
 
         function(next) {
-          workout.count(next);
+          Workout.count(next);
         },
 
         function(next) {
-          workout.find({})
+          Workout.find({})
             //.sort('title', 1)
-            .skip(page * maxworkoutsPerPage)
-            .limit(maxworkoutsPerPage)
+            .skip(page * maxWorkoutsPerPage)
+            .limit(maxWworkoutsPerPage)
             .exec(next);
         }
       ],
@@ -40,7 +40,7 @@ module.exports = function(app) {
         var count = results[0];
         var workouts = results[1];
 
-        var lastPage = (page + 1) * maxworkoutsPerPage >= count;
+        var lastPage = (page + 1) * maxWorkoutsPerPage >= count;
 
         res.render('workouts/index', {
           title: 'workouts',
@@ -57,7 +57,7 @@ module.exports = function(app) {
     res.render('workouts/new', {title: "New workout"});
   });
 
-  app.get('/workouts/:_id', loadworkout, function(req, res, next){
+  app.get('/workouts/:_id', loadWorkout, function(req, res, next){
     res.render('workouts/workout', {title: req.workout.title,
       workout: req.workout});
   });
@@ -66,7 +66,7 @@ module.exports = function(app) {
     console.log("/nreq.body" + JSON.stringify(req.body));
     var workout = req.body;
     workout.author = req.session.user._id;
-    workout.create(workout, function(err) {
+    Workout.create(workout, function(err) {
       if (err) {
         if (err.code === 11000) {
           res.send('Conflict', 409);
@@ -85,7 +85,7 @@ module.exports = function(app) {
     });
   });
 
-  app.del('/workouts/:title', loggedIn, loadworkout, function(req, res, next) {
+  app.del('/workouts/:title', loggedIn, loadWorkout, function(req, res, next) {
     req.workout.remove(function(err) {
       if (err) { return next(err); }
       res.redirect('/workouts');
