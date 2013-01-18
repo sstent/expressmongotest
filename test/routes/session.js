@@ -18,7 +18,7 @@ module.exports = function(app) {
         if (user) {
           req.session.user = user;
           console.log("req.session.user= " + JSON.stringify(req.session.user));
-          res.redirect('/users');
+          res.redirect('/users/' + req.session.user.username);
           } else {
           res.redirect('/session/new');
           }

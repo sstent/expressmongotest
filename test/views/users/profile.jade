@@ -2,8 +2,11 @@ extends ../layout
 block content
   h1= user.name
 
-  - if (session.user.)
+  - if (session.user.name === requested)
     h1 Private View
+      p= session.user.name
+      p= requested
+
   - else
     h1 Public View
 
@@ -13,10 +16,3 @@ block content
     li
       a(href="/articles/" + encodeURIComponent(article._id))= article.title
   - });
-
-  - if (session.user.is_admin = 'true')
-    form(action="/users/" + encodeURIComponent(user.username), method="POST")
-      input(name="_method", type="hidden", value="DELETE")
-      input(type="submit", value="Delete")
-
-    a(href="/users/") Back to Userlist 

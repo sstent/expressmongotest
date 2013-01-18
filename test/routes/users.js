@@ -51,13 +51,13 @@ module.exports = function(app) {
     res.render('users/profile', {
     title: 'User profile',
     user: req.user,
+    requested: req.params.name,
     recentArticles: articles
     });
     });
   });
 
   app.post('/users', notLoggedIn, function(req, res, next) {
-    console.log("/nreq.body" + JSON.stringify(req.body));
     User.create(req.body, function(err) {
         if (err) {
            if (err.code === 11000) {
