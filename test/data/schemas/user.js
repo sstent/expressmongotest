@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var UserSchema = new mongoose.Schema({
   username: {type: String, unique: true, required: true},
   name: String,
-  password: String
+  password: String,
+  is_admin: {type: Boolean, 'default': false }
 });
 
 UserSchema.methods.recentArticles = function(callback) {

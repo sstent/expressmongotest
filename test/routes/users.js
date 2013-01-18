@@ -6,12 +6,13 @@ var User = require('../data/models/user');
 var notLoggedIn = require('./middleware/not_logged_in');
 var loggedIn = require('./middleware/logged_in');
 var loadUser = require('./middleware/load_user');
+var isAdmin = require('./middleware/is_admin');
 var restrictUserToSelf = require('./middleware/restrict_user_to_self');
 var maxUsersPerPage = 5;
 
 module.exports = function(app) {
 
-  app.get('/users', loggedIn,  function(req, res, next){
+  app.get('/users', loggedIn, isAdmin, function(req, res, next){
     var page = req.query.page && parseInt(req.query.page, 10) || 0;
 
     User.count(function(err, count) {
@@ -38,7 +39,7 @@ module.exports = function(app) {
     });
   });
 
-  app.get('/users/new', notLoggedIn, function(req, res) {
+  app.get('/users/new', notLoggedIn,   function(req, res) {
     res.render('users/new', {title: "New User"});
   });
 
@@ -56,7 +57,6 @@ module.exports = function(app) {
   });
 
   app.post('/users', notLoggedIn, function(req, res, next) {
-    console.log("/nreq.body" + req.body);
     console.log("/nreq.body" + JSON.stringify(req.body));
     User.create(req.body, function(err) {
         if (err) {
