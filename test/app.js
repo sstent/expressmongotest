@@ -50,7 +50,7 @@ app.configure('production', function(){
 require('./routes/index')(app);
 require('./routes/users')(app);
 require('./routes/session')(app);
-require('./routes/articles')(app);
+require('./routes/workouts')(app);
 
 http.createServer(app).listen(app.get("port"), function(){
   console.log ("Server listening on port " + app.get("port"));

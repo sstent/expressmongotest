@@ -10,9 +10,12 @@ block content
   - else
     h1 Public View
 
-  h2 Recent Articles:
+  h2 Recent workouts:
   ul
-  - recentArticles.forEach(function(article) {
+  - recentworkouts.forEach(function(workout) {
     li
-      a(href="/articles/" + encodeURIComponent(article._id))= article.title
+      a(href="/workouts/" + encodeURIComponent(workout._id))= workout.title
   - });
+
+  - if (session.user.is_admin === true)
+    a(href="/users/") Goto Admin Page

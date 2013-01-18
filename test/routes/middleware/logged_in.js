@@ -1,8 +1,9 @@
 function loggedIn(req, res, next) {
   if (! req.session.user) {
-    //res.send('Forbidden. Please log in first.', 403);
+    console.log("not logged in - redirecting to login");
     res.redirect('/session/new');
   } else {
+    console.log("user logged in");
     next();
   }
 }

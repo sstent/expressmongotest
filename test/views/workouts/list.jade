@@ -1,0 +1,5 @@
+ul
+  - workouts.forEach(function(workout) {
+    li
+      a(href="/workouts/" + encodeURIComponent(workout._id))= workout.title
+  - });

@@ -44,7 +44,7 @@ module.exports = function(app) {
   });
 
   app.get('/users/:name', loadUser, function(req, res, next){
-    req.user.recentArticles(function(err, articles) {
+    req.user.recentworkouts(function(err, workouts) {
     if (err) {
     return next(err);
     }
@@ -52,7 +52,7 @@ module.exports = function(app) {
     title: 'User profile',
     user: req.user,
     requested: req.params.name,
-    recentArticles: articles
+    recentworkouts: workouts
     });
     });
   });

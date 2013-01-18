@@ -7,8 +7,8 @@ var UserSchema = new mongoose.Schema({
   is_admin: {type: Boolean, 'default': false }
 });
 
-UserSchema.methods.recentArticles = function(callback) {
-return this.model('Article')
+UserSchema.methods.recentworkouts = function(callback) {
+return this.model('workout')
 .find({author: this._id})
 //.sort('created_at', 1)
 .limit(5)

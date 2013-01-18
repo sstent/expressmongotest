@@ -1,31 +1,31 @@
 /*
- * Article Routes
+ * workout Routes
  */
 
 var async = require('async');
 
-var Article = require('../data/models/article');
+var workout = require('../data/models/workout');
 var notLoggedIn = require('./middleware/not_logged_in');
-var loadArticle = require('./middleware/load_article');
+var loadworkout = require('./middleware/load_workout');
 var loggedIn = require('./middleware/logged_in');
 var qs = require('querystring');
-var maxArticlesPerPage = 5;
+var maxworkoutsPerPage = 5;
 
 module.exports = function(app) {
 
-  app.get('/articles', loggedIn, function(req, res, next){
+  app.get('/workouts', loggedIn, function(req, res, next){
     var page = req.query.page  && parseInt(req.query.page, 10) || 0;
     async.parallel([
 
         function(next) {
-          Article.count(next);
+          workout.count(next);
         },
 
         function(next) {
-          Article.find({})
+          workout.find({})
             //.sort('title', 1)
-            .skip(page * maxArticlesPerPage)
-            .limit(maxArticlesPerPage)
+            .skip(page * maxworkoutsPerPage)
+            .limit(maxworkoutsPerPage)
             .exec(next);
         }
       ],
@@ -38,13 +38,13 @@ module.exports = function(app) {
         }
 
         var count = results[0];
-        var articles = results[1];
+        var workouts = results[1];
 
-        var lastPage = (page + 1) * maxArticlesPerPage >= count;
+        var lastPage = (page + 1) * maxworkoutsPerPage >= count;
 
-        res.render('articles/index', {
-          title: 'Articles',
-          articles: articles,
+        res.render('workouts/index', {
+          title: 'workouts',
+          workouts: workouts,
           page: page,
           lastPage: lastPage
         });
@@ -53,20 +53,20 @@ module.exports = function(app) {
     );
   });
 
-  app.get('/articles/new', loggedIn, function(req, res) {
-    res.render('articles/new', {title: "New Article"});
+  app.get('/workouts/new', loggedIn, function(req, res) {
+    res.render('workouts/new', {title: "New workout"});
   });
 
-  app.get('/articles/:_id', loadArticle, function(req, res, next){
-    res.render('articles/article', {title: req.article.title,
-      article: req.article});
+  app.get('/workouts/:_id', loadworkout, function(req, res, next){
+    res.render('workouts/workout', {title: req.workout.title,
+      workout: req.workout});
   });
 
-  app.post('/articles', loggedIn, function(req, res, next) {
+  app.post('/workouts', loggedIn, function(req, res, next) {
     console.log("/nreq.body" + JSON.stringify(req.body));
-    var article = req.body;
-    article.author = req.session.user._id;
-    Article.create(article, function(err) {
+    var workout = req.body;
+    workout.author = req.session.user._id;
+    workout.create(workout, function(err) {
       if (err) {
         if (err.code === 11000) {
           res.send('Conflict', 409);
@@ -81,14 +81,14 @@ module.exports = function(app) {
         }
         return;
       }
-      res.redirect('/articles');
+      res.redirect('/workouts');
     });
   });
 
-  app.del('/articles/:title', loggedIn, loadArticle, function(req, res, next) {
-    req.article.remove(function(err) {
+  app.del('/workouts/:title', loggedIn, loadworkout, function(req, res, next) {
+    req.workout.remove(function(err) {
       if (err) { return next(err); }
-      res.redirect('/articles');
+      res.redirect('/workouts');
     });
 
   });

@@ -1,0 +1,12 @@
+extends ../layout
+block content
+  h1= workout.title
+
+  div!= workout.body
+
+  hr
+
+  p
+    span Author:
+    &nbsp;
+    a(href="/users/" + encodeURIComponent(workout.author.name))= workout.author.name
